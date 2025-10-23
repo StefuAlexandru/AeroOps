@@ -23,5 +23,5 @@ jobs:
       - name: Grant execute permission for Maven Wrapper
         run: chmod +x mvnw
 
-      - name: Build (first run, skip tests)
+      - name: Build only
         run: ./mvnw -B -DskipTests package
