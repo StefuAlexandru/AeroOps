@@ -1,8 +1,10 @@
 package flights_management.aeroops;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class AeroOpsApplicationTests extends IntegrationTestBase {
+@SpringBootTest
+class AeroOpsApplicationTests {
 
     @Test
     void contextLoads() {

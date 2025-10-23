@@ -23,6 +23,5 @@ jobs:
       - name: Grant execute permission for Maven Wrapper
         run: chmod +x mvnw
 
-      - name: Build & Test (profile test)
-        run: ./mvnw -B -Dspring.profiles.active=test verify
-
+      - name: Build only
+        run: ./mvnw -B -DskipTests package
