@@ -29,15 +29,15 @@ public class FlightService implements IFlightService {
     @Override
     public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO) throws BusinessException {
         List<ErrorModel> errors = new ArrayList<>();
-        Airline airline = airlineRepository.findById(dto.airlineId()).orElse(null);
+        Airline airline = airlineRepository.findById(flightRequestDTO.airlineId()).orElse(null);
         if (airline == null){
             errors.add(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"));
         }
-        Airport origin = airportRepository.findById(dto.originAirportId()).orElse(null);
+        Airport origin = airportRepository.findById(flightRequestDTO.originAirportId()).orElse(null);
         if (origin == null){
             errors.add(new ErrorModel("ORIGIN_NOT_FOUND", "Origin airport not found"));
         }
-        Airport destination = airportRepository.findById(dto.destinationAirportId()).orElse(null);
+        Airport destination = airportRepository.findById(flightRequestDTO.destinationAirportId()).orElse(null);
         if (destination == null){
             errors.add(new ErrorModel("DESTINATION_NOT_FOUND", "Destination airport not found"));
         }
