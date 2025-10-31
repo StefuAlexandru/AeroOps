@@ -1,7 +1,7 @@
 ------------MODEL DE DATE------------
 Entități principale:
 
-Airport(id, iata_code, name, city, country)
+Airport(id, iata_code, name, city, country, time_zone_id)
 
 Airline(id, code, name)
 
@@ -14,7 +14,5 @@ Booking(id, code[PNR], flight_id, passenger_id, status[HOLD|CONFIRMED|CANCELLED]
 Ticket(id, booking_id, seat_id, fare_class_id, price)
 
 Aircraft(id, model, seat_capacity)
-
-FareClass(id, code [Y, M, B, J…], name)
 
 Seat(id, flight_id, seat_no, class_id, is_available)
