@@ -11,7 +11,7 @@ Passenger(id, first_name, last_name, email, phone)
 
 Booking(id, code[PNR], flight_id, passenger_id, status[HOLD|CONFIRMED|CANCELLED], price_total, created_at)
 
-Ticket(id, booking_id, seat_id, fare_class_id, price)
+Ticket(id, booking_id, seat_id, price)
 
 Aircraft(id, model, seat_capacity)
 
