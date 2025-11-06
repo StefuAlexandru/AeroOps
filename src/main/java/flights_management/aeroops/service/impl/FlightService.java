@@ -2,10 +2,14 @@ package flights_management.aeroops.service.impl;
 
 import flights_management.aeroops.dto.flight.FlightRequestDTO;
 import flights_management.aeroops.dto.flight.FlightResponseDTO;
+import flights_management.aeroops.entity.Airline;
+import flights_management.aeroops.entity.Airport;
 import flights_management.aeroops.entity.Flight;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.FlightMapper;
+import flights_management.aeroops.repository.AirlineRepository;
+import flights_management.aeroops.repository.AirportRepository;
 import flights_management.aeroops.repository.FlightsRepository;
 import flights_management.aeroops.service.IFlightService;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +48,7 @@ public class FlightService implements IFlightService {
 
         if(!errors.isEmpty()) throw new BusinessException(errors);
 
-        Flight flight = flightMapper.toEntity(flightRequestDTO);
-
-        flight.setAirline(airline);
-        flight.setOriginAirport(origin);
-        flight.setDestinationAirport(destination);
+        Flight flight = flightMapper.toEntity(flightRequestDTO,airline,origin,destination);
 
         flightsRepository.save(flight);
         return flightMapper.toResponse(flight);
