@@ -2,10 +2,8 @@ package flights_management.aeroops.dto.flight;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 // Pentru input (creare/editate)
