@@ -4,6 +4,7 @@ import flights_management.aeroops.dto.booking.BookingRequestDTO;
 import flights_management.aeroops.dto.booking.BookingResponseDTO;
 import flights_management.aeroops.entity.Booking;
 import flights_management.aeroops.entity.Flight;
+import flights_management.aeroops.enums.Status;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.BookingMapper;
@@ -38,7 +39,7 @@ public class BookingService implements IBookingService {
         if (passenger == null) {
             errors.add(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found"));
         }
-        if (flight != null && "CANCELLED".equals(String.valueOf(flight.getStatus()))) {
+        if (flight != null && flight.getStatus() == Status.CANCELLED) {
             errors.add(new ErrorModel("FLIGHT_CANCELLED", "Cannot create booking on a cancelled flight"));
         }
 
