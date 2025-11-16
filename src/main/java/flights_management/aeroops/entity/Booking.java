@@ -3,16 +3,21 @@ package flights_management.aeroops.entity;
 import flights_management.aeroops.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String code;
