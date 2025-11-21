@@ -10,22 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("api/airports")
 @RequiredArgsConstructor
 public class AirportsController {
 
-    private final IAirportService airportService;
+    private final IAirportService service;
+
 
     @PostMapping("/create")
-    public ResponseEntity<AirportResponseDTO> createAirport(
-            @Valid @RequestBody AirportRequestDTO airportRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(airportService.createAirport(airportRequestDTO));
+    public ResponseEntity<AirportResponseDTO> createAirport(@Valid @RequestBody AirportRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<AirportResponseDTO>> getAllAirports(){
-        return ResponseEntity.ok(airportService.getAllAirports());
+    public ResponseEntity<List<AirportResponseDTO>> getAllAirports() {
+        return ResponseEntity.ok(service.getAll());
     }
 }

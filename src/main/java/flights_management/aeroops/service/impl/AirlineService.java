@@ -14,33 +14,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
-@Service
-@RequiredArgsConstructor
-@Transactional
+@Service @RequiredArgsConstructor @Transactional
 public class AirlineService implements IAirlineService {
-
-    private final AirlineRepository airlineRepository;
-    private final AirlineMapper airlineMapper;
+    private final AirlineRepository repo;
+    private final AirlineMapper mapper;
 
     @Override
-    public AirlineResponseDTO createAirline(AirlineRequestDTO request) {
+    public AirlineResponseDTO create(AirlineRequestDTO req) {
         List<ErrorModel> errors = new ArrayList<>();
-        if (airlineRepository.existsByIataCodeIgnoreCase(request.iataCode())) {
-            errors.add(new ErrorModel("AIRLINE_IATA_EXISTS", "Airline with this IATA already exists"));
+        if (repo.existsByIataCodeIgnoreCase(req.iataCode())) {
+            errors.add(new ErrorModel("AIRLINE_IATA_EXISTS","Airline with this IATA already exists"));
         }
         if (!errors.isEmpty()) throw new BusinessException(errors);
 
-        Airline airline = airlineMapper.toEntity(request);
-        airlineRepository.save(airline);
-        return airlineMapper.toResponse(airline);
+        Airline entity = mapper.toEntity(req);
+        repo.save(entity);
+        return mapper.toResponse(entity);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<AirlineResponseDTO> getAllAirlines() {
-        return airlineRepository.findAll().stream()
-                .map(airlineMapper::toResponse)
-                .toList();
+    @Override @Transactional(readOnly = true)
+    public List<AirlineResponseDTO> getAll() {
+        return repo.findAll().stream().map(mapper::toResponse).toList();
     }
 }

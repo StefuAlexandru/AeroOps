@@ -1,5 +1,6 @@
 package flights_management.aeroops.mapper;
 
+import flights_management.aeroops.dto.airline.AirlineDTO;
 import flights_management.aeroops.dto.airline.AirlineRequestDTO;
 import flights_management.aeroops.dto.airline.AirlineResponseDTO;
 import flights_management.aeroops.entity.Airline;
@@ -8,9 +9,11 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AirlineMapper {
-
     @Mapping(target = "id", ignore = true)
-    Airline toEntity(AirlineRequestDTO dto);
+    Airline toEntity(AirlineRequestDTO req);
 
-    AirlineResponseDTO toResponse(Airline airline);
+    AirlineResponseDTO toResponse(Airline entity);
+
+    // pentru compoziție
+    AirlineDTO toDto(Airline entity);
 }

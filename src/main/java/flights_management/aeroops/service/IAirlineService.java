@@ -6,6 +6,6 @@ import flights_management.aeroops.dto.airline.AirlineResponseDTO;
 import java.util.List;
 
 public interface IAirlineService {
-    AirlineResponseDTO createAirline(AirlineRequestDTO request);
-    List<AirlineResponseDTO> getAllAirlines();
+    AirlineResponseDTO create(AirlineRequestDTO req);
+    List<AirlineResponseDTO> getAll();
 }

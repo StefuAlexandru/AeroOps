@@ -1,16 +1,14 @@
 package flights_management.aeroops.dto.airport;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public record AirportRequestDTO(
-        @NotBlank(message = "IATA code cannot be blank")
+        @NotBlank @Pattern(regexp = "^[A-Z]{3}$",
+                message = "IATA must be exactly 3 uppercase letters")
         String iataCode,
-        @NotBlank(message = "Name cannot be blank")
-        String name,
-        @NotBlank(message = "City cannot be blank")
-        String city,
-        @NotBlank(message = "Country cannot be blank")
-        String country,
-        @NotBlank(message = "Time zone ID cannot be blank")
-        String timeZoneId
-) { }
+        @NotBlank String name,
+        @NotBlank String city,
+        @NotBlank String country,
+        @NotBlank String timeZoneId
+) {}
