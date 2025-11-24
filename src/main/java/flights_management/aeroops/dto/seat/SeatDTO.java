@@ -1,0 +1,6 @@
+package flights_management.aeroops.dto.seat;
+
+import flights_management.aeroops.enums.SeatClass;
+
+public record SeatDTO(Long id, Long aircraftId, String seatNumber, SeatClass seatClass, Boolean isAvailable) {
+}
