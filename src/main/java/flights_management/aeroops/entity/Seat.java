@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//Seat(id, aircraft_id, seat_no, seat_class, is_available)
+//Seat(id, flight_id, seat_no, seat_class, is_available)
 @Entity
 @Getter
 @Setter
@@ -18,7 +18,7 @@ public class Seat {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
-    private Aircraft aircraft;
+    private Flight flight;
 
     @Column(nullable = false, length = 3)
     private String seatNumber;

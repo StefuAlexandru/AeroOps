@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record SeatRequestDTO(
-        @NotNull(message = "Aircraft ID cannot be null")
-        Long aircraftId,
+        @NotNull(message = "Flight ID cannot be null")
+        Long flightId,
         @NotNull(message = "Seat number cannot be null")
         @Pattern(
                 //a seat must begin with a digit that is not 0  -> [1-9] e.g. 1A

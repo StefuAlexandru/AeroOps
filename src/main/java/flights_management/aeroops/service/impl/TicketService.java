@@ -9,8 +9,8 @@ import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.TicketMapper;
 import flights_management.aeroops.repository.BookingRepository;
-import flights_management.aeroops.repository.SeatsRepository;
-import flights_management.aeroops.repository.TicketsRepository;
+import flights_management.aeroops.repository.SeatRepository;
+import flights_management.aeroops.repository.TicketRepository;
 import flights_management.aeroops.service.ITicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class TicketService implements ITicketService {
-    private final TicketsRepository ticketsRepository;
+    private final TicketRepository ticketRepository;
     private final BookingRepository bookingRepository;
-    private final SeatsRepository seatsRepository;
+    private final SeatRepository seatsRepository;
     private final TicketMapper ticketMapper;
     @Override
     public TicketResponseDTO createTicket(TicketRequestDTO ticketRequestDTO) {
@@ -41,13 +41,13 @@ public class TicketService implements ITicketService {
 
         if(!errors.isEmpty()) throw new BusinessException(errors);
         Ticket ticket = ticketMapper.toEntity(ticketRequestDTO,booking,seat);
-        ticketsRepository.save(ticket);
+        ticketRepository.save(ticket);
         return ticketMapper.toResponse(ticket);
     }
 
     @Override
     public List<TicketResponseDTO> getAllTickets() {
-        return ticketsRepository.findAll()
+        return ticketRepository.findAll()
                 .stream().map(ticketMapper::toResponse).toList();
     }
 }

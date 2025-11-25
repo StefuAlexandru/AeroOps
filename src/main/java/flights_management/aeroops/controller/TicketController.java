@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/tickets")
 @RequiredArgsConstructor
-public class TicketsController {
+public class TicketController {
     private final ITicketService ticketService;
 
     @PostMapping("/create")
