@@ -15,4 +15,4 @@ Ticket(id, booking_id, seat_id, price)
 
 Aircraft(id, model, seat_capacity)
 
-Seat(id, flight_id, seat_no, class_id, is_available)
+Seat(id, aircraft_id, seat_no, class_id, is_available)

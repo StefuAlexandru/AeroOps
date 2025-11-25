@@ -1,23 +1,30 @@
 package flights_management.aeroops.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
 
 //Ticket(id, booking_id, seat_id, price)
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "booking_id")
-    private Long bookingId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Booking booking;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private Seat seat;
 
-    @Column(name = "price")
-    private Double price;
+    @Column(nullable = false)
+    private BigDecimal price;
 }

@@ -1,7 +1,7 @@
 package flights_management.aeroops.controller;
 
-import flights_management.aeroops.dto.flight.TicketRequestDTO;
-import flights_management.aeroops.dto.flight.TicketResponseDTO;
+import flights_management.aeroops.dto.ticket.TicketRequestDTO;
+import flights_management.aeroops.dto.ticket.TicketResponseDTO;
 import flights_management.aeroops.service.ITicketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
