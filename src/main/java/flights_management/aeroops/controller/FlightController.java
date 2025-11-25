@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/flights")
 @RequiredArgsConstructor
-public class FlightsController {
+public class FlightController {
 
     public final IFlightService flightService;
 

@@ -10,10 +10,9 @@ import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.FlightMapper;
 import flights_management.aeroops.repository.AirlineRepository;
 import flights_management.aeroops.repository.AirportRepository;
-import flights_management.aeroops.repository.FlightsRepository;
+import flights_management.aeroops.repository.FlightRepository;
 import flights_management.aeroops.service.IFlightService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,7 @@ import java.util.List;
 @Transactional
 public class FlightService implements IFlightService {
 
-    private final FlightsRepository flightsRepository;
+    private final FlightRepository flightRepository;
     private final AirlineRepository airlineRepository;
     private final AirportRepository airportRepository;
     private final FlightMapper flightMapper;
@@ -50,14 +49,14 @@ public class FlightService implements IFlightService {
 
         Flight flight = flightMapper.toEntity(flightRequestDTO,airline,origin,destination);
 
-        flightsRepository.save(flight);
+        flightRepository.save(flight);
         return flightMapper.toResponse(flight);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<FlightResponseDTO> getAllFlights() {
-        return flightsRepository.findAll()
+        return flightRepository.findAll()
                 .stream().map(flightMapper::toResponse).toList();
     }
 }
