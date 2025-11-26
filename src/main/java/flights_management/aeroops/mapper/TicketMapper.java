@@ -11,18 +11,20 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TicketMapper {
+
+    // RequestDTO -> Entity
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "booking", expression = "java(booking)")
     @Mapping(target = "seat", expression = "java(seat)")
     Ticket toEntity(TicketRequestDTO dto, Booking booking, Seat seat);
 
-    @Mapping(target = "id",            source = "id")
+    // Entity -> ResponseDTO
     @Mapping(target = "code",          source = "booking.code")
-    @Mapping(target = "status",        source = "booking.status")
-    @Mapping(target = "price",         source = "price")
+    @Mapping(target = "bookingStatus", source = "booking.status")
     @Mapping(target = "seatNumber",    source = "seat.seatNumber")
     @Mapping(target = "seatClass",     source = "seat.seatClass")
     TicketResponseDTO toResponse(Ticket ticket);
 
+    //Entity -> DTO
     TicketDTO toDto(Ticket ticket);
 }

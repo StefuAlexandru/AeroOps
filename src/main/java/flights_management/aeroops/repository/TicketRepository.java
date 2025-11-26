@@ -1,8 +1,8 @@
 package flights_management.aeroops.repository;
 
-import flights_management.aeroops.entity.Seat;
+import flights_management.aeroops.entity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SeatsRepository extends JpaRepository<Seat,Long> { }
+public interface TicketRepository extends JpaRepository<Ticket,Long> { }

@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/seats")
 @RequiredArgsConstructor
-public class SeatsController {
+public class SeatController {
     private final ISeatService seatService;
 
     @PostMapping("/create")
