@@ -2,12 +2,14 @@ package flights_management.aeroops.service.impl;
 
 import flights_management.aeroops.dto.flight.FlightRequestDTO;
 import flights_management.aeroops.dto.flight.FlightResponseDTO;
+import flights_management.aeroops.entity.Aircraft;
 import flights_management.aeroops.entity.Airline;
 import flights_management.aeroops.entity.Airport;
 import flights_management.aeroops.entity.Flight;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.FlightMapper;
+import flights_management.aeroops.repository.AircraftRepository;
 import flights_management.aeroops.repository.AirlineRepository;
 import flights_management.aeroops.repository.AirportRepository;
 import flights_management.aeroops.repository.FlightRepository;
@@ -27,6 +29,7 @@ public class FlightService implements IFlightService {
     private final FlightRepository flightRepository;
     private final AirlineRepository airlineRepository;
     private final AirportRepository airportRepository;
+    private final AircraftRepository aircraftRepository;
     private final FlightMapper flightMapper;
 
     @Override
@@ -44,10 +47,14 @@ public class FlightService implements IFlightService {
         if (destination == null){
             errors.add(new ErrorModel("DESTINATION_NOT_FOUND", "Destination airport not found"));
         }
+        Aircraft aircraft = aircraftRepository.findById(flightRequestDTO.aircraftId()).orElse(null);
+        if (aircraft == null){
+            errors.add(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"));
+        }
 
         if(!errors.isEmpty()) throw new BusinessException(errors);
 
-        Flight flight = flightMapper.toEntity(flightRequestDTO,airline,origin,destination);
+        Flight flight = flightMapper.toEntity(flightRequestDTO,airline,origin,destination,aircraft);
 
         flightRepository.save(flight);
         return flightMapper.toResponse(flight);

@@ -4,6 +4,7 @@ package flights_management.aeroops.mapper;
 import flights_management.aeroops.dto.flight.FlightDTO;
 import flights_management.aeroops.dto.flight.FlightRequestDTO;
 import flights_management.aeroops.dto.flight.FlightResponseDTO;
+import flights_management.aeroops.entity.Aircraft;
 import flights_management.aeroops.entity.Airline;
 import flights_management.aeroops.entity.Airport;
 import flights_management.aeroops.entity.Flight;
@@ -22,13 +23,14 @@ public interface FlightMapper {
     // RequestDTO -> Entity
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "airline", expression = "java(airline)")
-    @Mapping(target = "originAirport", expression = "java(originAirport)")
-    @Mapping(target = "destinationAirport", expression = "java(destinationAirport)")
+    @Mapping(target = "airline", source = "airline")
+    @Mapping(target = "originAirport", source = "originAirport")
+    @Mapping(target = "destinationAirport", source = "destinationAirport")
+    @Mapping(target = "aircraft",source = "aircraft")
     @Mapping(target = "status", constant = "PLANNED")
     @Mapping(target = "scheduledDeparture", expression = "java(toInstant(dto.scheduledDeparture()))")
     @Mapping(target = "scheduledArrival",  expression = "java(toInstant(dto.scheduledArrival()))")
-    Flight toEntity(FlightRequestDTO dto, Airline airline, Airport originAirport, Airport destinationAirport);
+    Flight toEntity(FlightRequestDTO dto, Airline airline, Airport originAirport, Airport destinationAirport, Aircraft aircraft);
 
     // Entity -> ResponseDTO
 
@@ -45,6 +47,7 @@ public interface FlightMapper {
     @Mapping(target = "airlineName" , source = "airline.name")
     @Mapping(target = "originIata" , source = "originAirport.iataCode")
     @Mapping(target = "destinationIata" , source = "destinationAirport.iataCode")
+    @Mapping(target = "aircraftRegistration" , source = "aircraft.registration")
     @Mapping(target = "scheduledDeparture",
             expression = "java(toZoned(flight.getScheduledDeparture(),flight.getOriginAirport()))")
     @Mapping(target = "scheduledArrival",

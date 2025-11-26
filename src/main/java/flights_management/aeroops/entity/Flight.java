@@ -33,6 +33,10 @@ public class Flight{
     @JoinColumn(nullable = false)
     private Airport destinationAirport;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Aircraft aircraft;
+
     @Column(nullable = false)
     private String flightNumber;
     @Column(nullable=false)
