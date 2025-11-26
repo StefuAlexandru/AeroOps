@@ -2,19 +2,24 @@ package flights_management.aeroops.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Airline {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
     // IATA pentru companii (ex: "LH", "RO") sau ICAO (3 litere) — îl păstrăm unic
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 3)
     private String iataCode;
 
     @Column(nullable = false)
