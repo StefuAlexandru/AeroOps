@@ -7,7 +7,7 @@ import flights_management.aeroops.entity.Seat;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.SeatMapper;
-import flights_management.aeroops.repository.FlightsRepository;
+import flights_management.aeroops.repository.FlightRepository;
 import flights_management.aeroops.repository.SeatRepository;
 import flights_management.aeroops.service.ISeatService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 @Transactional
 public class SeatService implements ISeatService {
     private final SeatRepository seatRepository;
-    private final FlightsRepository flightRepository;
+    private final FlightRepository flightRepository;
     private final SeatMapper seatMapper;
 
     @Override
