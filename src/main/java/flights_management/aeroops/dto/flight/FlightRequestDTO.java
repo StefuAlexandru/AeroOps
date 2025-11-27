@@ -14,6 +14,8 @@ public record FlightRequestDTO(
         Long originAirportId,
         @NotNull(message = "Destination airport ID cannot be null")
         Long destinationAirportId,
+        @NotNull(message = "Aircraft ID cannot be null")
+        Long aircraftId,
         @NotBlank(message = "Flight number cannot be empty/null")
         String flightNumber,
         @NotNull(message = "Scheduled departure cannot be null")

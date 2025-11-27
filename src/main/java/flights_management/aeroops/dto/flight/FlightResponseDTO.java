@@ -10,6 +10,7 @@ public record FlightResponseDTO(
         AirlineDTO airline,
         AirportDTO originAirport,
         AirportDTO destinationAirport,
+        AircraftDTO aircraftDTO,
         String flightNumber,
         ZonedDateTime scheduledDeparture,
         ZonedDateTime scheduledArrival,

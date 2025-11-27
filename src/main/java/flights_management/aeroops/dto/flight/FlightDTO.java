@@ -13,6 +13,7 @@ public record FlightDTO(
         String airlineName,
         String originIata,
         String destinationIata,
+        String aircraftRegistration,
         ZonedDateTime scheduledDeparture,
         ZonedDateTime scheduledArrival,
         Status status
