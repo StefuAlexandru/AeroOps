@@ -1,36 +1,32 @@
 package flights_management.aeroops.controller;
 
-import flights_management.aeroops.dto.airport.AircraftRequest;
-import flights_management.aeroops.dto.airport.AircraftResponse;
-import flights_management.aeroops.service.impl.AircraftService;
+import flights_management.aeroops.dto.aircraft.AircraftRequestDTO;
+import flights_management.aeroops.dto.aircraft.AircraftResponseDTO;
+import flights_management.aeroops.service.IAircraftService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/aircraft")
+@RequiredArgsConstructor
 public class AircraftController {
-    private final AircraftService service;
 
-    public AircraftController(AircraftService service) { this.service = service; }
+    private final IAircraftService aircraftService;
 
     @GetMapping
-    public List<AircraftResponse> list() {
-        return service.listAircraft();
+    public ResponseEntity<List<AircraftResponseDTO>> getAllAircrafts() {
+        List<AircraftResponseDTO> aircrafts = aircraftService.listAircraft();
+        return ResponseEntity.ok(aircrafts);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AircraftResponse create(@RequestBody @Valid AircraftRequest req) {
-        return service.createAircraft(req);
-    }
-
-    @GetMapping
-    public Page<AircraftResponse> list(Pageable pageable) {
-        return service.list(pageable);
+    public ResponseEntity<AircraftResponseDTO> createAircraft(@RequestBody @Valid AircraftRequestDTO requestDTO) {
+        AircraftResponseDTO responseDTO = aircraftService.createAircraft(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 }
