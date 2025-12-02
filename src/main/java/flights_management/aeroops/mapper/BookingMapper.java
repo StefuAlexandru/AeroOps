@@ -4,6 +4,7 @@ import flights_management.aeroops.dto.booking.BookingRequestDTO;
 import flights_management.aeroops.dto.booking.BookingResponseDTO;
 import flights_management.aeroops.entity.Booking;
 import flights_management.aeroops.entity.Flight;
+import flights_management.aeroops.entity.Passenger;
 import flights_management.aeroops.util.PnrGenerator;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

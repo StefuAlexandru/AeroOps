@@ -1,5 +1,6 @@
 package flights_management.aeroops.dto.flight;
 
+import flights_management.aeroops.dto.aircraft.AircraftDTO;
 import flights_management.aeroops.enums.Status;
 
 import java.time.ZonedDateTime;

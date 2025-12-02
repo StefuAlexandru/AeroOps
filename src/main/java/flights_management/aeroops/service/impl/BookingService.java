@@ -4,12 +4,14 @@ import flights_management.aeroops.dto.booking.BookingRequestDTO;
 import flights_management.aeroops.dto.booking.BookingResponseDTO;
 import flights_management.aeroops.entity.Booking;
 import flights_management.aeroops.entity.Flight;
+import flights_management.aeroops.entity.Passenger;
 import flights_management.aeroops.enums.Status;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.BookingMapper;
 import flights_management.aeroops.repository.BookingRepository;
-import flights_management.aeroops.repository.FlightsRepository;
+import flights_management.aeroops.repository.FlightRepository;
+import flights_management.aeroops.repository.PassengerRepository;
 import flights_management.aeroops.service.IBookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,12 @@ import java.util.List;
 @Transactional
 public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
-    private final FlightsRepository flightsRepository;
+    private final FlightRepository flightsRepository;
     private final PassengerRepository passengerRepository;
     private final BookingMapper bookingMapper;
 
     @Override
-    public BookingResponseDTO createBooking(BookingRequestDTO bookingRequestDTO){
+    public BookingResponseDTO createBooking(BookingRequestDTO bookingRequestDTO) {
         List<ErrorModel> errors = new ArrayList<>();
 
         Flight flight = flightsRepository.findById(bookingRequestDTO.flightId()).orElse(null);

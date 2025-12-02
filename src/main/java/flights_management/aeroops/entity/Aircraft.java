@@ -1,11 +1,19 @@
 package flights_management.aeroops.entity;
-import jakarta.persistence.*;
-import lombok.*;
 
-@Entity @Table(name = "aircraft")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "aircraft")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Aircraft {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 16)

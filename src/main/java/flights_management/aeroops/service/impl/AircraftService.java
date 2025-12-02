@@ -1,63 +1,55 @@
 package flights_management.aeroops.service.impl;
 
-
-import flights_management.aeroops.dto.airport.AircraftRequest;
-import flights_management.aeroops.dto.airport.AircraftResponse;
+import flights_management.aeroops.dto.aircraft.AircraftRequestDTO;
+import flights_management.aeroops.dto.aircraft.AircraftResponseDTO;
 import flights_management.aeroops.entity.Aircraft;
+import flights_management.aeroops.error.BusinessException;
+import flights_management.aeroops.error.ErrorModel;
+import flights_management.aeroops.mapper.AircraftMapper;
 import flights_management.aeroops.repository.AircraftRepository;
 import flights_management.aeroops.service.IAircraftService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class AircraftService implements IAircraftService {
 
-    private final AircraftRepository repo;
-
-    public AircraftService(AircraftRepository repo) {
-        this.repo = repo;
-    }
+    private final AircraftRepository aircraftRepository;
+    private final AircraftMapper aircraftMapper;
 
     @Override
-    @Transactional
-    public AircraftResponse createAircraft(AircraftRequest request) {
-        if (repo.existsByRegistration(request.registration())) {
-            throw new IllegalArgumentException("Aircraft registration already exists: " + request.registration());
+    public AircraftResponseDTO createAircraft(AircraftRequestDTO requestDTO) {
+        String normalizedRegistration = requestDTO.registration().toUpperCase();
+
+        if (aircraftRepository.existsByRegistration(normalizedRegistration)) {
+            ErrorModel error = new ErrorModel(
+                    "AIRCRAFT_REGISTRATION_EXISTS",
+                    "Aircraft registration already exists: " + normalizedRegistration
+            );
+            throw new BusinessException(List.of(error));
         }
 
-        Aircraft saved = repo.save(Aircraft.builder()
-                .registration(request.registration().toUpperCase())
-                .type(request.type())
-                .manufacturer(request.manufacturer())
-                .seats(request.seats())
-                .build());
+        // DTO -> Entity prin MapStruct
+        Aircraft aircraft = aircraftMapper.toEntity(requestDTO);
 
-        return mapToResponse(saved);
+        // persist
+        Aircraft saved = aircraftRepository.save(aircraft);
+
+        // Entity -> Response DTO
+        return aircraftMapper.toResponseDTO(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<AircraftResponse> listAircraft() {
-        return repo.findAll().stream()
-                .map(this::mapToResponse)
+    public List<AircraftResponseDTO> listAircraft() {
+        return aircraftRepository.findAll()
+                .stream()
+                .map(aircraftMapper::toResponseDTO)
                 .toList();
-    }
-
-    private AircraftResponse mapToResponse(Aircraft a) {
-        return new AircraftResponse(
-                a.getId(),
-                a.getRegistration(),
-                a.getType(),
-                a.getManufacturer(),
-                a.getSeats()
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public Page<AircraftResponse> list(Pageable pageable) {
-        return repo.findAll(pageable).map(this::mapToResponse);
     }
 }
