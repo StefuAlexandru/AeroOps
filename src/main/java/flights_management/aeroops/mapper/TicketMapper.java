@@ -14,8 +14,8 @@ public interface TicketMapper {
 
     // RequestDTO -> Entity
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "booking", expression = "java(booking)")
-    @Mapping(target = "seat", expression = "java(seat)")
+    @Mapping(target = "booking", source = "booking")
+    @Mapping(target = "seat", source = "seat")
     Ticket toEntity(TicketRequestDTO dto, Booking booking, Seat seat);
 
     // Entity -> ResponseDTO
