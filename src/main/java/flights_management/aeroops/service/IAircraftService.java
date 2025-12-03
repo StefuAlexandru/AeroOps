@@ -8,5 +8,5 @@ import java.util.List;
 public interface IAircraftService {
 
     AircraftResponseDTO createAircraft(AircraftRequestDTO requestDTO);
-    List<AircraftResponseDTO> listAircraft();
+    List<AircraftResponseDTO> getAllAircrafts();
 }

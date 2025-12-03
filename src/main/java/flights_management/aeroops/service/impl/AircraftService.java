@@ -46,7 +46,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AircraftResponseDTO> listAircraft() {
+    public List<AircraftResponseDTO> getAllAircrafts() {
         return aircraftRepository.findAll()
                 .stream()
                 .map(aircraftMapper::toResponseDTO)

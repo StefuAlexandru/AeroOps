@@ -1,6 +1,7 @@
 package flights_management.aeroops.entity;
 
 import flights_management.aeroops.enums.SeatClass;
+import flights_management.aeroops.util.TimeStamps;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Seat {
+public class Seat extends TimeStamps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

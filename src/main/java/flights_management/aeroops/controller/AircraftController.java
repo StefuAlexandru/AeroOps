@@ -20,7 +20,7 @@ public class AircraftController {
 
     @GetMapping
     public ResponseEntity<List<AircraftResponseDTO>> getAllAircrafts() {
-        List<AircraftResponseDTO> aircrafts = aircraftService.listAircraft();
+        List<AircraftResponseDTO> aircrafts = aircraftService.getAllAircrafts();
         return ResponseEntity.ok(aircrafts);
     }
 

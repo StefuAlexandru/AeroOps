@@ -2,7 +2,6 @@ package flights_management.aeroops.dto.airport;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 public record AirportRequestDTO(
         @NotBlank @Pattern(regexp = "^[A-Z]{3}$",

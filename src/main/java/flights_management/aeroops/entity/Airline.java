@@ -1,7 +1,7 @@
 package flights_management.aeroops.entity;
 
+import flights_management.aeroops.util.TimeStamps;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Airline {
+public class Airline extends TimeStamps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +18,6 @@ public class Airline {
     @Column(nullable = false)
     private String name;
 
-    // IATA pentru companii (ex: "LH", "RO") sau ICAO (3 litere) — îl păstrăm unic
     @Column(nullable = false, unique = true, length = 3)
     private String iataCode;
 

@@ -16,6 +16,8 @@ public interface TicketMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "booking", source = "booking")
     @Mapping(target = "seat", source = "seat")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Ticket toEntity(TicketRequestDTO dto, Booking booking, Seat seat);
 
     // Entity -> ResponseDTO

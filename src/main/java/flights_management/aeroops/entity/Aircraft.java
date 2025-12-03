@@ -1,16 +1,16 @@
 package flights_management.aeroops.entity;
 
+import flights_management.aeroops.util.TimeStamps;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "aircraft")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Aircraft {
+public class Aircraft extends TimeStamps {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +27,6 @@ public class Aircraft {
 
     @Column(nullable = false)
     private Integer seats;
+
+
 }

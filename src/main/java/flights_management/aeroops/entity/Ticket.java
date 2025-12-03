@@ -1,5 +1,6 @@
 package flights_management.aeroops.entity;
 
+import flights_management.aeroops.util.TimeStamps;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Ticket {
+public class Ticket extends TimeStamps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,13 +1,14 @@
 package flights_management.aeroops.dto.passenger;
 
-import flights_management.aeroops.dto.flight.TicketDTO;
-import java.util.List;
+import java.time.Instant;
 
 public record PassengerResponseDTO(
         Long id,
         String firstName,
         String lastName,
         String email,
-        String phone
+        String phone,
+        Instant createdAt,
+        Instant updatedAt
 ) {
 }

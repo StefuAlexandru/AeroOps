@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 public interface AircraftMapper {
 
     // entity to dto
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "registration", expression = "java(requestDTO.registration().toUpperCase())")
     Aircraft toEntity(AircraftRequestDTO requestDTO);

@@ -4,6 +4,8 @@ import flights_management.aeroops.enums.BookingStatus;
 import flights_management.aeroops.enums.SeatClass;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+
 //de la Booking : code, bookingStatus
 //de la Seat : seatNumber, seatClass
 public record TicketResponseDTO(
@@ -12,5 +14,7 @@ public record TicketResponseDTO(
         BookingStatus bookingStatus,
         BigDecimal price,
         String seatNumber,
-        SeatClass seatClass
+        SeatClass seatClass,
+        Instant createdAt,
+        Instant updatedAt
 ) { }

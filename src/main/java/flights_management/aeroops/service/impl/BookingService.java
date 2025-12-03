@@ -13,6 +13,7 @@ import flights_management.aeroops.repository.BookingRepository;
 import flights_management.aeroops.repository.FlightRepository;
 import flights_management.aeroops.repository.PassengerRepository;
 import flights_management.aeroops.service.IBookingService;
+import flights_management.aeroops.util.PnrGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class BookingService implements IBookingService {
     private final FlightRepository flightsRepository;
     private final PassengerRepository passengerRepository;
     private final BookingMapper bookingMapper;
+    private final PnrGenerator pnrGenerator;
 
     @Override
     public BookingResponseDTO createBooking(BookingRequestDTO bookingRequestDTO) {
@@ -50,7 +52,7 @@ public class BookingService implements IBookingService {
         }
 
         //  DTO -> enitity
-        Booking booking = bookingMapper.toEntity(bookingRequestDTO, flight, passenger);
+        Booking booking = bookingMapper.toEntity(bookingRequestDTO, flight, passenger,pnrGenerator);
 
         // persist & response
         Booking saved = bookingRepository.save(booking);

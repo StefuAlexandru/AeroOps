@@ -15,6 +15,8 @@ public interface SeatMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "flight", source = "flight")
     @Mapping(target = "isAvailable", constant = "true")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Seat toEntity(SeatRequestDTO dto, Flight flight);
 
     // Entity -> ResponseDTO
