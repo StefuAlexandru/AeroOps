@@ -13,7 +13,7 @@ public interface SeatMapper {
 
     // RequestDTO -> Entity
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "flight", expression = "java(flight)")
+    @Mapping(target = "flight", source = "flight")
     @Mapping(target = "isAvailable", constant = "true")
     Seat toEntity(SeatRequestDTO dto, Flight flight);
 
