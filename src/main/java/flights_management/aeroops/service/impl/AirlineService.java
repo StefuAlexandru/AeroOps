@@ -43,4 +43,30 @@ public class AirlineService implements IAirlineService {
                 .map(airlineMapper::toResponse)
                 .toList();
     }
+
+    @Override
+    public AirlineResponseDTO updateAirline(Long id, AirlineRequestDTO request) {
+        Airline airline = airlineRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"))
+                ));
+
+        airline.setName(request.name());
+        airline.setIataCode(request.iataCode());
+        airline.setCountry(request.country());
+
+        Airline updated = airlineRepository.save(airline);
+
+        return airlineMapper.toResponse(updated);
+    }
+
+    @Override
+    public void deleteAirline(Long id) {
+        Airline airline = airlineRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"))
+                ));
+
+        airlineRepository.delete(airline);
+    }
 }

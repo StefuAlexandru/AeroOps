@@ -28,4 +28,19 @@ public class AirportController {
     public ResponseEntity<List<AirportResponseDTO>> getAllAirports(){
         return ResponseEntity.ok(airportService.getAllAirports());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AirportResponseDTO> updateAirport(
+            @PathVariable Long id,
+            @Valid @RequestBody AirportRequestDTO request) {
+
+        AirportResponseDTO response = airportService.updateAirport(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
+        airportService.deleteAirport(id);
+        return ResponseEntity.noContent().build();
+    }
 }
