@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/seats")
+@RequestMapping("api/seat")
 @RequiredArgsConstructor
 public class SeatController {
     private final ISeatService seatService;
@@ -28,4 +28,20 @@ public class SeatController {
         List<SeatResponseDTO> seats = seatService.getAllSeats();
         return ResponseEntity.ok(seats);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SeatResponseDTO> updateSeat(
+            @PathVariable Long id,
+            @Valid @RequestBody SeatRequestDTO seatRequestDTO
+    ){
+        SeatResponseDTO seatResponseDTO = seatService.updateSeat(id,seatRequestDTO);
+        return ResponseEntity.ok(seatResponseDTO);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSeat(@PathVariable Long id){
+        seatService.deleteSeat(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -8,4 +8,7 @@ import java.util.List;
 public interface ISeatService {
     SeatResponseDTO createSeat(SeatRequestDTO seatRequestDTO);
     List<SeatResponseDTO> getAllSeats();
+    SeatResponseDTO updateSeat(Long id,SeatRequestDTO seatRequestDTO);
+    void deleteSeat(Long id);
+
 }
