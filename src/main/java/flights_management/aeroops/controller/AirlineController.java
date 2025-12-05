@@ -29,4 +29,19 @@ public class AirlineController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(airlineService.createAirline(request));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AirlineResponseDTO> updateAirline(
+            @PathVariable Long id,
+            @Valid @RequestBody AirlineRequestDTO request) {
+
+        AirlineResponseDTO response = airlineService.updateAirline(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAirline(@PathVariable Long id) {
+        airlineService.deleteAirline(id);
+        return ResponseEntity.noContent().build();
+    }
 }

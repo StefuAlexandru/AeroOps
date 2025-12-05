@@ -3,6 +3,8 @@ package flights_management.aeroops.service.impl;
 import flights_management.aeroops.dto.airport.AirportRequestDTO;
 import flights_management.aeroops.dto.airport.AirportResponseDTO;
 import flights_management.aeroops.entity.Airport;
+import flights_management.aeroops.error.BusinessException;
+import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.AirportMapper;
 import flights_management.aeroops.repository.AirportRepository;
 import flights_management.aeroops.service.IAirportService;
@@ -33,5 +35,33 @@ public class AirportService implements IAirportService {
                 .stream()
                 .map(airportMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public AirportResponseDTO updateAirport(Long id, AirportRequestDTO request) {
+        Airport airport = airportRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("AIRPORT_NOT_FOUND", "Airport not found"))
+                ));
+
+        airport.setIataCode(request.iataCode());
+        airport.setName(request.name());
+        airport.setCity(request.city());
+        airport.setCountry(request.country());
+        airport.setTimeZoneId(request.timeZoneId());
+
+        Airport updated = airportRepository.save(airport);
+
+        return airportMapper.toResponse(updated);
+    }
+
+    @Override
+    public void deleteAirport(Long id) {
+        Airport airport = airportRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("AIRPORT_NOT_FOUND", "Airport not found"))
+                ));
+
+        airportRepository.delete(airport);
     }
 }
