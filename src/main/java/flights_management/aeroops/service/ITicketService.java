@@ -8,4 +8,7 @@ import java.util.List;
 public interface ITicketService {
     TicketResponseDTO createTicket(TicketRequestDTO ticketRequestDTO);
     List<TicketResponseDTO> getAllTickets();
+    TicketResponseDTO updateTicket(Long id,TicketRequestDTO ticketRequestDTO);
+    void deleteTicket(Long id);
+
 }

@@ -24,9 +24,7 @@ public class CustomExceptionHandler {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         List<ErrorModel> errors = new ArrayList<>();
         fieldErrors.forEach(fieldError -> {
-           ErrorModel errorModel = new ErrorModel();
-           errorModel.setCode(fieldError.getCode());
-           errorModel.setMessage(fieldError.getDefaultMessage());
+           ErrorModel errorModel = new ErrorModel(fieldError.getCode(), fieldError.getDefaultMessage());
            errors.add(errorModel);
         });
         return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
