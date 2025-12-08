@@ -39,8 +39,6 @@ public interface FlightMapper {
 
     // Entity -> ResponseDTO
 
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "airline", source = "airline")
     @Mapping(target = "originAirport", source = "originAirport")
     @Mapping(target = "destinationAirport", source = "destinationAirport")

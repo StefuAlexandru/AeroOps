@@ -8,4 +8,6 @@ import java.util.List;
 public interface IPassengerService {
     PassengerResponseDTO createPassenger(PassengerRequestDTO passengerRequestDTO);
     List<PassengerResponseDTO> getAllPassengers();
+    PassengerResponseDTO updatePassenger(Long id, PassengerRequestDTO passengerRequestDTO);
+    void deletePassenger(Long id);
 }

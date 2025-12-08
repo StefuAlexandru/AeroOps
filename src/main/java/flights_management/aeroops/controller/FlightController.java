@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/flights")
+@RequestMapping("api/flight")
 @RequiredArgsConstructor
 public class FlightController {
 
@@ -20,14 +20,29 @@ public class FlightController {
 
     @PostMapping("/create")
     public ResponseEntity<FlightResponseDTO> createFlight(
-            @Valid @RequestBody FlightRequestDTO flightRequestDTO){
+            @Valid @RequestBody FlightRequestDTO flightRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(flightService.createFlight(flightRequestDTO));
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<FlightResponseDTO>> getAllFlights(){
+    public ResponseEntity<List<FlightResponseDTO>> getAllFlights() {
         List<FlightResponseDTO> flights = flightService.getAllFlights();
         return ResponseEntity.ok(flights);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<FlightResponseDTO> updateFlight(
+            @PathVariable Long id,
+            @Valid @RequestBody FlightRequestDTO flightRequestDTO
+    ) {
+        FlightResponseDTO updated = flightService.updateFlight(id, flightRequestDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
+        flightService.deleteFlight(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

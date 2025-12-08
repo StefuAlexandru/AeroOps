@@ -8,4 +8,6 @@ import java.util.List;
 public interface IFlightService {
     FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO);
     List<FlightResponseDTO> getAllFlights();
+    FlightResponseDTO updateFlight(Long id, FlightRequestDTO flightRequestDTO);
+    void deleteFlight(Long id);
 }

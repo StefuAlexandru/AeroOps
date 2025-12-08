@@ -19,14 +19,28 @@ public class PassengerController {
 
     @PostMapping("/create")
     public ResponseEntity<PassengerResponseDTO> createPassenger(
-           @Valid @RequestBody PassengerRequestDTO passengerRequestDTO){
+            @Valid @RequestBody PassengerRequestDTO passengerRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(passengerService.createPassenger(passengerRequestDTO));
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<PassengerResponseDTO>> getPassengers(){
+    public ResponseEntity<List<PassengerResponseDTO>> getPassengers() {
         return ResponseEntity.ok(passengerService.getAllPassengers());
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PassengerResponseDTO> updatePassenger(
+            @PathVariable Long id,
+            @Valid @RequestBody PassengerRequestDTO request
+    ) {
+        PassengerResponseDTO updated = passengerService.updatePassenger(id, request);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletePassenger(@PathVariable Long id) {
+        passengerService.deletePassenger(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

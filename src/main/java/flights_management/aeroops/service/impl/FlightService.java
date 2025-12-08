@@ -33,28 +33,16 @@ public class FlightService implements IFlightService {
     private final FlightMapper flightMapper;
 
     @Override
-    public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO) throws BusinessException {
-        List<ErrorModel> errors = new ArrayList<>();
-        Airline airline = airlineRepository.findById(flightRequestDTO.airlineId()).orElse(null);
-        if (airline == null){
-            errors.add(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"));
-        }
-        Airport origin = airportRepository.findById(flightRequestDTO.originAirportId()).orElse(null);
-        if (origin == null){
-            errors.add(new ErrorModel("ORIGIN_NOT_FOUND", "Origin airport not found"));
-        }
-        Airport destination = airportRepository.findById(flightRequestDTO.destinationAirportId()).orElse(null);
-        if (destination == null){
-            errors.add(new ErrorModel("DESTINATION_NOT_FOUND", "Destination airport not found"));
-        }
-        Aircraft aircraft = aircraftRepository.findById(flightRequestDTO.aircraftId()).orElse(null);
-        if (aircraft == null){
-            errors.add(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"));
-        }
+    public FlightResponseDTO createFlight(FlightRequestDTO flightRequestDTO) {
+        ValidatedFlightData validated = validateAndFetch(flightRequestDTO);
 
-        if(!errors.isEmpty()) throw new BusinessException(errors);
-
-        Flight flight = flightMapper.toEntity(flightRequestDTO,airline,origin,destination,aircraft);
+        Flight flight = flightMapper.toEntity(
+                flightRequestDTO,
+                validated.airline(),
+                validated.origin(),
+                validated.destination(),
+                validated.aircraft()
+        );
 
         flightRepository.save(flight);
         return flightMapper.toResponse(flight);
@@ -65,5 +53,73 @@ public class FlightService implements IFlightService {
     public List<FlightResponseDTO> getAllFlights() {
         return flightRepository.findAll()
                 .stream().map(flightMapper::toResponse).toList();
+    }
+
+    @Override
+    public FlightResponseDTO updateFlight(Long id, FlightRequestDTO request) {
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"))
+                ));
+
+        ValidatedFlightData validated = validateAndFetch(request);
+
+        flight.setAirline(validated.airline());
+        flight.setOriginAirport(validated.origin());
+        flight.setDestinationAirport(validated.destination());
+        flight.setAircraft(validated.aircraft());
+        flight.setFlightNumber(request.flightNumber());
+        flight.setScheduledDeparture(request.scheduledDeparture().toInstant());
+        flight.setScheduledArrival(request.scheduledArrival().toInstant());
+
+        Flight updatedFlight = flightRepository.save(flight);
+        return flightMapper.toResponse(updatedFlight);
+    }
+
+    @Override
+    public void deleteFlight(Long id) {
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"))
+                ));
+        flightRepository.delete(flight);
+    }
+
+    private record ValidatedFlightData(
+            Airline airline,
+            Airport origin,
+            Airport destination,
+            Aircraft aircraft
+    ) {
+    }
+
+    private ValidatedFlightData validateAndFetch(FlightRequestDTO request) {
+        List<ErrorModel> errors = new ArrayList<>();
+
+        Airline airline = airlineRepository.findById(request.airlineId()).orElse(null);
+        if (airline == null) {
+            errors.add(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"));
+        }
+
+        Airport origin = airportRepository.findById(request.originAirportId()).orElse(null);
+        if (origin == null) {
+            errors.add(new ErrorModel("ORIGIN_NOT_FOUND", "Origin airport not found"));
+        }
+
+        Airport destination = airportRepository.findById(request.destinationAirportId()).orElse(null);
+        if (destination == null) {
+            errors.add(new ErrorModel("DESTINATION_NOT_FOUND", "Destination airport not found"));
+        }
+
+        Aircraft aircraft = aircraftRepository.findById(request.aircraftId()).orElse(null);
+        if (aircraft == null) {
+            errors.add(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"));
+        }
+
+        if (!errors.isEmpty()) {
+            throw new BusinessException(errors);
+        }
+
+        return new ValidatedFlightData(airline, origin, destination, aircraft);
     }
 }
