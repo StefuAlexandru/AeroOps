@@ -25,40 +25,29 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class BookingService implements IBookingService {
+
     private final BookingRepository bookingRepository;
     private final FlightRepository flightsRepository;
     private final PassengerRepository passengerRepository;
     private final BookingMapper bookingMapper;
     private final PnrGenerator pnrGenerator;
 
+
     @Override
     public BookingResponseDTO createBooking(BookingRequestDTO bookingRequestDTO) {
-        List<ErrorModel> errors = new ArrayList<>();
+        ValidatedBookingData validated = validateAndFetch(bookingRequestDTO);
 
-        Flight flight = flightsRepository.findById(bookingRequestDTO.flightId()).orElse(null);
-        if (flight == null) {
-            errors.add(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"));
-        }
-        Passenger passenger = passengerRepository.findById(bookingRequestDTO.passengerId()).orElse(null);
-        if (passenger == null) {
-            errors.add(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found"));
-        }
-        if (flight != null && flight.getStatus() == Status.CANCELLED) {
-            errors.add(new ErrorModel("FLIGHT_CANCELLED", "Cannot create booking on a cancelled flight"));
-        }
+        Booking booking = bookingMapper.toEntity(
+                bookingRequestDTO,
+                validated.flight(),
+                validated.passenger(),
+                pnrGenerator
+        );
 
-        if (!errors.isEmpty()) {
-            throw new BusinessException(errors);
-        }
-
-        //  DTO -> enitity
-        Booking booking = bookingMapper.toEntity(bookingRequestDTO, flight, passenger,pnrGenerator);
-
-        // persist & response
         Booking saved = bookingRepository.save(booking);
         return bookingMapper.toResponse(saved);
-
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -69,4 +58,56 @@ public class BookingService implements IBookingService {
                 .toList();
     }
 
+
+    @Override
+    public BookingResponseDTO updateBooking(Long id, BookingRequestDTO requestDTO) {
+        Booking bookingToUpdate = bookingRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("BOOKING_NOT_FOUND", "Booking not found"))
+                ));
+
+        ValidatedBookingData validated = validateAndFetch(requestDTO);
+
+        bookingToUpdate.setFlight(validated.flight());
+        bookingToUpdate.setPassenger(validated.passenger());
+        bookingToUpdate.setPriceTotal(requestDTO.priceTotal());
+
+        Booking updated = bookingRepository.save(bookingToUpdate);
+        return bookingMapper.toResponse(updated);
+    }
+
+
+    @Override
+    public void deleteBooking(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel("BOOKING_NOT_FOUND", "Booking not found"))
+                ));
+        bookingRepository.delete(booking);
+    }
+
+
+    private record ValidatedBookingData(Flight flight, Passenger passenger) { }
+
+    private ValidatedBookingData validateAndFetch(BookingRequestDTO bookingRequestDTO) {
+        List<ErrorModel> errors = new ArrayList<>();
+
+        Flight flight = flightsRepository.findById(bookingRequestDTO.flightId()).orElse(null);
+        if (flight == null) {
+            errors.add(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"));
+        } else if (flight.getStatus() == Status.CANCELLED) {
+            errors.add(new ErrorModel("FLIGHT_CANCELLED", "Cannot create/update booking on a cancelled flight"));
+        }
+
+        Passenger passenger = passengerRepository.findById(bookingRequestDTO.passengerId()).orElse(null);
+        if (passenger == null) {
+            errors.add(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found"));
+        }
+
+        if (!errors.isEmpty()) {
+            throw new BusinessException(errors);
+        }
+
+        return new ValidatedBookingData(flight, passenger);
+    }
 }

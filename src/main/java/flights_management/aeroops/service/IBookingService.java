@@ -8,4 +8,6 @@ import java.util.List;
 public interface IBookingService {
     BookingResponseDTO createBooking(BookingRequestDTO bookingRequestDTO);
     List<BookingResponseDTO> getAllBookings();
+    BookingResponseDTO updateBooking(Long id, BookingRequestDTO bookingRequestDTO);
+    void deleteBooking(Long id);
 }
