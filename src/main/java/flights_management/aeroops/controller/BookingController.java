@@ -30,4 +30,15 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, @RequestBody BookingRequestDTO bookingRequestDTO) {
+        BookingResponseDTO updated = bookingService.updateBooking(id, bookingRequestDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<BookingResponseDTO> deleteBooking(Long id) {
+        bookingService.deleteBooking(id);
+        return ResponseEntity.noContent().build();
+    }
 }

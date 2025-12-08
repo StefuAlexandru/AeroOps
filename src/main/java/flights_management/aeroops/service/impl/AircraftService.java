@@ -52,4 +52,24 @@ public class AircraftService implements IAircraftService {
                 .map(aircraftMapper::toResponseDTO)
                 .toList();
     }
+
+    @Override
+    public AircraftResponseDTO updateAircraft(Long id, AircraftRequestDTO requestDTO) {
+        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel("AIRCRAFT_NOT_FOUND","Aircraft not found"))));
+
+        aircraft.setRegistration(requestDTO.registration());
+        aircraft.setManufacturer(requestDTO.manufacturer());
+        aircraft.setSeats(requestDTO.seats());
+        aircraft.setType(requestDTO.type());
+
+        Aircraft updated = aircraftRepository.save(aircraft);
+
+        return aircraftMapper.toResponseDTO(updated);
+    }
+
+    @Override
+    public void deleteAircraft(Long id) {
+        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"))));
+        aircraftRepository.delete(aircraft);
+    }
 }
