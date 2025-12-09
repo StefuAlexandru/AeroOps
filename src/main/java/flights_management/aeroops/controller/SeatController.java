@@ -17,19 +17,19 @@ import java.util.List;
 public class SeatController {
     private final ISeatService seatService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<SeatResponseDTO> createSeat(
             @Valid @RequestBody SeatRequestDTO seatRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(seatService.createSeat(seatRequestDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<SeatResponseDTO>> getAllSeats(){
         List<SeatResponseDTO> seats = seatService.getAllSeats();
         return ResponseEntity.ok(seats);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<SeatResponseDTO> updateSeat(
             @PathVariable Long id,
             @Valid @RequestBody SeatRequestDTO seatRequestDTO
@@ -38,7 +38,7 @@ public class SeatController {
         return ResponseEntity.ok(seatResponseDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSeat(@PathVariable Long id){
         seatService.deleteSeat(id);
         return ResponseEntity.noContent().build();
