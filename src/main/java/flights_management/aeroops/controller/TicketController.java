@@ -19,19 +19,19 @@ import java.util.List;
 public class TicketController {
     private final ITicketService ticketService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<TicketResponseDTO> createTicket(
             @Valid @RequestBody TicketRequestDTO ticketRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(ticketRequestDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<TicketResponseDTO>> getAllTickets(){
         List<TicketResponseDTO> tickets = ticketService.getAllTickets();
         return ResponseEntity.ok(tickets);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TicketResponseDTO> updateTicket(
             @PathVariable Long id,
             @Valid @RequestBody TicketRequestDTO ticketRequestDTO
@@ -40,9 +40,10 @@ public class TicketController {
         return ResponseEntity.ok(ticketResponseDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<TicketResponseDTO> deleteTicket(@PathVariable Long id){
         ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
 }
+
