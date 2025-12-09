@@ -3,6 +3,7 @@ package flights_management.aeroops.service.impl;
 import flights_management.aeroops.dto.airport.AirportRequestDTO;
 import flights_management.aeroops.dto.airport.AirportResponseDTO;
 import flights_management.aeroops.entity.Airport;
+import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.AirportMapper;
@@ -39,10 +40,7 @@ public class AirportService implements IAirportService {
 
     @Override
     public AirportResponseDTO updateAirport(Long id, AirportRequestDTO request) {
-        Airport airport = airportRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("AIRPORT_NOT_FOUND", "Airport not found"))
-                ));
+        Airport airport = getAirport(id);
 
         airport.setIataCode(request.iataCode());
         airport.setName(request.name());
@@ -57,11 +55,14 @@ public class AirportService implements IAirportService {
 
     @Override
     public void deleteAirport(Long id) {
-        Airport airport = airportRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("AIRPORT_NOT_FOUND", "Airport not found"))
-                ));
-
+        Airport airport = getAirport(id);
         airportRepository.delete(airport);
+    }
+
+    private Airport getAirport(Long id) {
+        return airportRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel(ErrorCode.AIRPORT_NOT_FOUND))
+                ));
     }
 }

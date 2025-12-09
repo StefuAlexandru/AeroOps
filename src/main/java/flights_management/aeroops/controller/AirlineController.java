@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/airlines")
+@RequestMapping("api/airline")
 @RequiredArgsConstructor
 public class AirlineController {
 
     private final IAirlineService airlineService;
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<AirlineResponseDTO>> getAllAirlines() {
         return ResponseEntity.ok(airlineService.getAllAirlines());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<AirlineResponseDTO> createAirline(
             @Valid @RequestBody AirlineRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
