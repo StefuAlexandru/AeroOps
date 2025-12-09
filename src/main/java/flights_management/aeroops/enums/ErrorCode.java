@@ -12,6 +12,10 @@ public enum ErrorCode {
     BOOKING_NOT_FOUND("Booking not found"),
     AIRLINE_NOT_FOUND("Airline not found"),
     AIRPORT_NOT_FOUND("Airport not found"),
-    AIRLINE_IATA_EXISTS("Airline with this IATA already exists");
+    AIRLINE_IATA_EXISTS("Airline with this IATA already exists"),
+    PASSENGER_NOT_FOUND("Passenger not found"),
+    ORIGIN_NOT_FOUND("Origin not found"),
+    DESTINATION_NOT_FOUND("Destination airport not found"),
+    AIRCRAFT_NOT_FOUND("Aircraft not found");
     private final String message;
 }
