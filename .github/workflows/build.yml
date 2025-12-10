@@ -58,8 +58,11 @@ jobs:
             pg_isready -h localhost -p 5433 -d flights-db -U appuser && break
             echo "Postgres not ready yet..."; sleep 5
           done
-
       - name: Build and analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aeroops_aeroops
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
