@@ -20,7 +20,7 @@ jobs:
           POSTGRES_USER: appuser
           POSTGRES_PASSWORD: secret
         ports:
-          - "5433:5432"          # EXACT ca în docker-compose
+          - "5433:5432"
         options: >-
           --health-cmd="pg_isready -U appuser -d flights-db"
           --health-interval=5s
@@ -63,6 +63,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+        run: >
+          mvn -B verify
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=${SONAR_PROJECT_KEY}
+          -Dsonar.host.url=${SONAR_HOST_URL}
