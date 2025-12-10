@@ -1,6 +1,6 @@
 # AeroOps – Setup și Workflow
 
-## 1. Instalare
+## 1. Instalare 
 
 ### 1.1. Instalați următoarele aplicații:
 - **WSL2** – din *Company Portal*
