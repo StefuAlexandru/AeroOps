@@ -1,4 +1,4 @@
-# AeroOps – Setup și Workflow
+# AeroOps – Setup și Workflow 
 
 ## 1. Instalare
 
