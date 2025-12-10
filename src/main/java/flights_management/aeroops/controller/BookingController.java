@@ -17,21 +17,21 @@ import java.util.List;
 public class BookingController {
     private final IBookingService bookingService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<BookingResponseDTO> createBooking(
             @Valid @RequestBody BookingRequestDTO bookingRequestDTO) {
         BookingResponseDTO response = bookingService.createBooking(bookingRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<BookingResponseDTO>> getAllBookings() {
         List<BookingResponseDTO> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(bookings);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, @RequestBody BookingRequestDTO bookingRequestDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<BookingResponseDTO> updateBooking(@PathVariable Long id, @Valid @RequestBody BookingRequestDTO bookingRequestDTO) {
         BookingResponseDTO updated = bookingService.updateBooking(id, bookingRequestDTO);
         return ResponseEntity.ok(updated);
     }

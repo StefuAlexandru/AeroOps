@@ -30,13 +30,13 @@ public class AircraftController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AircraftResponseDTO> updateAircraft(@PathVariable Long id, @RequestBody AircraftRequestDTO requestDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<AircraftResponseDTO> updateAircraft(@PathVariable Long id, @Valid @RequestBody AircraftRequestDTO requestDTO) {
         AircraftResponseDTO updated = aircraftService.updateAircraft(id, requestDTO);
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<AircraftResponseDTO> deleteAircraft(@PathVariable Long id) {
         aircraftService.deleteAircraft(id);
         return ResponseEntity.noContent().build();
