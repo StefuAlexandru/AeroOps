@@ -58,10 +58,7 @@ public class FlightService implements IFlightService {
 
     @Override
     public FlightResponseDTO updateFlight(Long id, FlightRequestDTO request) {
-        Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel(ErrorCode.FLIGHT_NOT_FOUND))
-                ));
+        Flight flight = getFlight(id);
 
         ValidatedFlightData validated = validateAndFetch(request);
 
@@ -79,11 +76,15 @@ public class FlightService implements IFlightService {
 
     @Override
     public void deleteFlight(Long id) {
-        Flight flight = flightRepository.findById(id)
+        Flight flight = getFlight(id);
+        flightRepository.delete(flight);
+    }
+
+    private Flight getFlight(Long id) {
+        return flightRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(
                         List.of(new ErrorModel(ErrorCode.FLIGHT_NOT_FOUND))
                 ));
-        flightRepository.delete(flight);
     }
 
     private record ValidatedFlightData(
