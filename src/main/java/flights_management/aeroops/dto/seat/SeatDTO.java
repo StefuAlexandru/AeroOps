@@ -2,5 +2,10 @@ package flights_management.aeroops.dto.seat;
 
 import flights_management.aeroops.enums.SeatClass;
 
-public record SeatDTO(Long id, Long flightId, String seatNumber, SeatClass seatClass, Boolean isAvailable) {
+public record SeatDTO(
+        Long id,
+        Long flightId,
+        String seatNumber,
+        SeatClass seatClass,
+        Boolean isAvailable) {
 }

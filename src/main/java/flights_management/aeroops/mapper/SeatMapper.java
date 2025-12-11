@@ -24,5 +24,6 @@ public interface SeatMapper {
     SeatResponseDTO toResponse(Seat seat);
 
     //Entity -> DTO
+    @Mapping(target="flightId", source = "flight.id" )
     SeatDTO toDto(Seat seat);
 }
