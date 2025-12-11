@@ -9,7 +9,7 @@
 
 ### 1.2. Configurare Rancher Desktop
 După instalare:
-- În **Preferences → Kubernetes** → dezactivați opțiunea **Enable Kubernetes**
+- În **Preferences → Kubernetes** → dezactivați opțiunea **Enable Kubernetes** 
 - În **Preferences → Container Engine** → selectați **dockerd (moby)**
 
 La final, bara de stare (jos, dreapta) trebuie să arate aproximativ așa:
