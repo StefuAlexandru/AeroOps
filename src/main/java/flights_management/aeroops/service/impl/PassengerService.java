@@ -4,6 +4,7 @@ import ch.qos.logback.core.spi.ErrorCodes;
 import flights_management.aeroops.dto.passenger.PassengerRequestDTO;
 import flights_management.aeroops.dto.passenger.PassengerResponseDTO;
 import flights_management.aeroops.entity.Passenger;
+import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.PassengerMapper;
@@ -40,7 +41,7 @@ public class PassengerService implements IPassengerService {
     @Override
     public PassengerResponseDTO updatePassenger(Long id, PassengerRequestDTO request) {
         Passenger passenger = passengerRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(List.of(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found!"))));
+                .orElseThrow(() -> new BusinessException(List.of(new ErrorModel(ErrorCode.PASSENGER_NOT_FOUND))));
         passenger.setEmail(request.email());
         passenger.setFirstName(request.firstName());
         passenger.setLastName(request.lastName());
@@ -52,7 +53,7 @@ public class PassengerService implements IPassengerService {
     @Override
     public void deletePassenger(Long id) {
         Passenger passenger = passengerRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(List.of(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found"))));
+                .orElseThrow(() -> new BusinessException(List.of(new ErrorModel(ErrorCode.PASSENGER_NOT_FOUND))));
         passengerRepository.delete(passenger);
     }
 }
