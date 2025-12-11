@@ -13,7 +13,7 @@ public enum ErrorCode {
     AIRLINE_NOT_FOUND("Airline not found"),
     AIRLINE_IATA_EXISTS("Airline with this IATA already exists"),
     AIRCRAFT_REGISTRATION_EXISTS("Aircraft registration already exists"),
-    FLIGHT_CANCELLED("Cannot create/update booking on a cancelled flight");
+    FLIGHT_CANCELLED("Cannot create/update booking on a cancelled flight"),
     PASSENGER_NOT_FOUND("Passenger not found"),
     ORIGIN_NOT_FOUND("Origin not found"),
     DESTINATION_NOT_FOUND("Destination airport not found"),
