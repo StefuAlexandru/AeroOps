@@ -17,6 +17,7 @@ public enum ErrorCode {
     PASSENGER_NOT_FOUND("Passenger not found"),
     ORIGIN_NOT_FOUND("Origin not found"),
     DESTINATION_NOT_FOUND("Destination airport not found"),
-    AIRCRAFT_NOT_FOUND("Aircraft not found");
+    AIRCRAFT_NOT_FOUND("Aircraft not found"),
+    AIRPORT_NOT_FOUND("Airport not found");
     private final String message;
 }

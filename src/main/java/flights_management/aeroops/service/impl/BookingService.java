@@ -99,7 +99,7 @@ public class BookingService implements IBookingService {
 
         Passenger passenger = passengerRepository.findById(bookingRequestDTO.passengerId()).orElse(null);
         if (passenger == null) {
-            errors.add(new ErrorModel(ErrorCode.PASSAGER_NOT_FOUND));
+            errors.add(new ErrorModel(ErrorCode.PASSENGER_NOT_FOUND));
         }
 
         if (!errors.isEmpty()) {
