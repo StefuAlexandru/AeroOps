@@ -18,19 +18,19 @@ public class FlightController {
 
     public final IFlightService flightService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<FlightResponseDTO> createFlight(
             @Valid @RequestBody FlightRequestDTO flightRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(flightService.createFlight(flightRequestDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<FlightResponseDTO>> getAllFlights() {
         List<FlightResponseDTO> flights = flightService.getAllFlights();
         return ResponseEntity.ok(flights);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<FlightResponseDTO> updateFlight(
             @PathVariable Long id,
             @Valid @RequestBody FlightRequestDTO flightRequestDTO
@@ -39,7 +39,7 @@ public class FlightController {
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
         flightService.deleteFlight(id);
         return ResponseEntity.noContent().build();

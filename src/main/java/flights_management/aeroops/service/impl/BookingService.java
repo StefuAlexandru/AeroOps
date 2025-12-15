@@ -5,6 +5,7 @@ import flights_management.aeroops.dto.booking.BookingResponseDTO;
 import flights_management.aeroops.entity.Booking;
 import flights_management.aeroops.entity.Flight;
 import flights_management.aeroops.entity.Passenger;
+import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.enums.Status;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
@@ -62,9 +63,7 @@ public class BookingService implements IBookingService {
     @Override
     public BookingResponseDTO updateBooking(Long id, BookingRequestDTO requestDTO) {
         Booking bookingToUpdate = bookingRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("BOOKING_NOT_FOUND", "Booking not found"))
-                ));
+                .orElseThrow(() -> new BusinessException(List.of(new ErrorModel(ErrorCode.BOOKING_NOT_FOUND))));
 
         ValidatedBookingData validated = validateAndFetch(requestDTO);
 
@@ -81,11 +80,10 @@ public class BookingService implements IBookingService {
     public void deleteBooking(Long id) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("BOOKING_NOT_FOUND", "Booking not found"))
+                        List.of(new ErrorModel(ErrorCode.BOOKING_NOT_FOUND))
                 ));
         bookingRepository.delete(booking);
     }
-
 
     private record ValidatedBookingData(Flight flight, Passenger passenger) { }
 
@@ -94,14 +92,14 @@ public class BookingService implements IBookingService {
 
         Flight flight = flightsRepository.findById(bookingRequestDTO.flightId()).orElse(null);
         if (flight == null) {
-            errors.add(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"));
+            errors.add(new ErrorModel(ErrorCode.BOOKING_NOT_FOUND));
         } else if (flight.getStatus() == Status.CANCELLED) {
-            errors.add(new ErrorModel("FLIGHT_CANCELLED", "Cannot create/update booking on a cancelled flight"));
+            errors.add(new ErrorModel(ErrorCode.FLIGHT_CANCELLED));
         }
 
         Passenger passenger = passengerRepository.findById(bookingRequestDTO.passengerId()).orElse(null);
         if (passenger == null) {
-            errors.add(new ErrorModel("PASSENGER_NOT_FOUND", "Passenger not found"));
+            errors.add(new ErrorModel(ErrorCode.PASSENGER_NOT_FOUND));
         }
 
         if (!errors.isEmpty()) {

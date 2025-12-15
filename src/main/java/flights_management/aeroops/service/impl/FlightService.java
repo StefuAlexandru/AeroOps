@@ -6,6 +6,7 @@ import flights_management.aeroops.entity.Aircraft;
 import flights_management.aeroops.entity.Airline;
 import flights_management.aeroops.entity.Airport;
 import flights_management.aeroops.entity.Flight;
+import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.FlightMapper;
@@ -57,10 +58,7 @@ public class FlightService implements IFlightService {
 
     @Override
     public FlightResponseDTO updateFlight(Long id, FlightRequestDTO request) {
-        Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"))
-                ));
+        Flight flight = getFlight(id);
 
         ValidatedFlightData validated = validateAndFetch(request);
 
@@ -78,11 +76,15 @@ public class FlightService implements IFlightService {
 
     @Override
     public void deleteFlight(Long id) {
-        Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        List.of(new ErrorModel("FLIGHT_NOT_FOUND", "Flight not found"))
-                ));
+        Flight flight = getFlight(id);
         flightRepository.delete(flight);
+    }
+
+    private Flight getFlight(Long id) {
+        return flightRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(
+                        List.of(new ErrorModel(ErrorCode.FLIGHT_NOT_FOUND))
+                ));
     }
 
     private record ValidatedFlightData(
@@ -98,22 +100,22 @@ public class FlightService implements IFlightService {
 
         Airline airline = airlineRepository.findById(request.airlineId()).orElse(null);
         if (airline == null) {
-            errors.add(new ErrorModel("AIRLINE_NOT_FOUND", "Airline not found"));
+            errors.add(new ErrorModel(ErrorCode.AIRLINE_NOT_FOUND));
         }
 
         Airport origin = airportRepository.findById(request.originAirportId()).orElse(null);
         if (origin == null) {
-            errors.add(new ErrorModel("ORIGIN_NOT_FOUND", "Origin airport not found"));
+            errors.add(new ErrorModel(ErrorCode.ORIGIN_NOT_FOUND));
         }
 
         Airport destination = airportRepository.findById(request.destinationAirportId()).orElse(null);
         if (destination == null) {
-            errors.add(new ErrorModel("DESTINATION_NOT_FOUND", "Destination airport not found"));
+            errors.add(new ErrorModel(ErrorCode.DESTINATION_NOT_FOUND));
         }
 
         Aircraft aircraft = aircraftRepository.findById(request.aircraftId()).orElse(null);
         if (aircraft == null) {
-            errors.add(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"));
+            errors.add(new ErrorModel(ErrorCode.AIRCRAFT_NOT_FOUND));
         }
 
         if (!errors.isEmpty()) {

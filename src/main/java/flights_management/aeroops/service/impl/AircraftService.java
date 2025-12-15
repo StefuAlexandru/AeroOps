@@ -3,6 +3,7 @@ package flights_management.aeroops.service.impl;
 import flights_management.aeroops.dto.aircraft.AircraftRequestDTO;
 import flights_management.aeroops.dto.aircraft.AircraftResponseDTO;
 import flights_management.aeroops.entity.Aircraft;
+import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.error.BusinessException;
 import flights_management.aeroops.error.ErrorModel;
 import flights_management.aeroops.mapper.AircraftMapper;
@@ -27,10 +28,7 @@ public class AircraftService implements IAircraftService {
         String normalizedRegistration = requestDTO.registration().toUpperCase();
 
         if (aircraftRepository.existsByRegistration(normalizedRegistration)) {
-            ErrorModel error = new ErrorModel(
-                    "AIRCRAFT_REGISTRATION_EXISTS",
-                    "Aircraft registration already exists: " + normalizedRegistration
-            );
+            ErrorModel error = new ErrorModel(ErrorCode.AIRCRAFT_REGISTRATION_EXISTS);
             throw new BusinessException(List.of(error));
         }
 
@@ -55,7 +53,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public AircraftResponseDTO updateAircraft(Long id, AircraftRequestDTO requestDTO) {
-        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel("AIRCRAFT_NOT_FOUND","Aircraft not found"))));
+        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel(ErrorCode.AIRCRAFT_NOT_FOUND))));
 
         aircraft.setRegistration(requestDTO.registration());
         aircraft.setManufacturer(requestDTO.manufacturer());
@@ -69,7 +67,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public void deleteAircraft(Long id) {
-        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel("AIRCRAFT_NOT_FOUND", "Aircraft not found"))));
+        Aircraft aircraft = aircraftRepository.findById(id).orElseThrow(()-> new BusinessException(List.of(new ErrorModel(ErrorCode.AIRCRAFT_NOT_FOUND))));
         aircraftRepository.delete(aircraft);
     }
 }

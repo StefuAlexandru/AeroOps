@@ -17,18 +17,18 @@ import java.util.List;
 public class PassengerController {
     private final IPassengerService passengerService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<PassengerResponseDTO> createPassenger(
             @Valid @RequestBody PassengerRequestDTO passengerRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(passengerService.createPassenger(passengerRequestDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<PassengerResponseDTO>> getPassengers() {
         return ResponseEntity.ok(passengerService.getAllPassengers());
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PassengerResponseDTO> updatePassenger(
             @PathVariable Long id,
             @Valid @RequestBody PassengerRequestDTO request
@@ -37,7 +37,7 @@ public class PassengerController {
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePassenger(@PathVariable Long id) {
         passengerService.deletePassenger(id);
         return ResponseEntity.noContent().build();
