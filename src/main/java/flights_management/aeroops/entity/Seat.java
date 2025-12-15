@@ -12,6 +12,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(uniqueConstraints = @UniqueConstraint(
+        columnNames = {"flight_id","seat_number"}
+))
 public class Seat extends TimeStamps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

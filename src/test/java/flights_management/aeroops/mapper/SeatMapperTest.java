@@ -24,7 +24,7 @@ class SeatMapperTest {
     @Test
     void toEntity() {
         // Arrange
-        SeatRequestDTO dto = new SeatRequestDTO(10L,"12A", SeatClass.BUSINESS);
+        SeatRequestDTO dto = new SeatRequestDTO(10L,"12A", SeatClass.BUSINESS,true);
 
         Flight flight = new Flight();
         flight.setId(10L);
@@ -37,6 +37,7 @@ class SeatMapperTest {
         assertEquals("12A",seat.getSeatNumber());
         assertEquals(SeatClass.BUSINESS,seat.getSeatClass());
         assertEquals(flight,seat.getFlight());
+        assertEquals(true,seat.getIsAvailable());
         assertTrue(seat.getIsAvailable());
         assertNull(seat.getId());
         assertNull(seat.getCreatedAt());
@@ -75,6 +76,7 @@ class SeatMapperTest {
         assertEquals(10L, seatDTO.flightId());
         assertEquals("12A",seatDTO.seatNumber());
         assertEquals(SeatClass.BUSINESS,seatDTO.seatClass());
+        assertEquals(true,seatDTO.isAvailable());
         assertTrue(seatDTO.isAvailable());
 
     }
