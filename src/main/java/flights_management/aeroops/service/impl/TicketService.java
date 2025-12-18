@@ -5,6 +5,7 @@ import flights_management.aeroops.dto.ticket.TicketResponseDTO;
 import flights_management.aeroops.entity.Booking;
 import flights_management.aeroops.entity.Seat;
 import flights_management.aeroops.entity.Ticket;
+import flights_management.aeroops.enums.BookingStatus;
 import flights_management.aeroops.enums.ErrorCode;
 import flights_management.aeroops.enums.Status;
 import flights_management.aeroops.error.BusinessException;

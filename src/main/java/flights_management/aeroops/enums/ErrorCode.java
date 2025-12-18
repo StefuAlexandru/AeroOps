@@ -14,6 +14,10 @@ public enum ErrorCode {
     BOOKING_NOT_FOUND(HttpStatus.NOT_FOUND, "Booking not found"),
     AIRLINE_NOT_FOUND(HttpStatus.NOT_FOUND, "Airline not found"),
     AIRPORT_NOT_FOUND(HttpStatus.NOT_FOUND, "Airport not found"),
+    AIRCRAFT_NOT_FOUND(HttpStatus.NOT_FOUND, "Aircraft not found"),
+    PASSENGER_NOT_FOUND(HttpStatus.NOT_FOUND, "Passenger not found"),
+    ORIGIN_NOT_FOUND(HttpStatus.NOT_FOUND, "Origin not found"),
+    DESTINATION_NOT_FOUND(HttpStatus.NOT_FOUND, "Destination not found"),
 
     AIRLINE_IATA_EXISTS(HttpStatus.CONFLICT, "Airline with this IATA already exists"),
     SEAT_ALREADY_EXISTS_FOR_THIS_FLIGHT(HttpStatus.CONFLICT, "Seat number already exists for this flight"),
@@ -30,7 +34,8 @@ public enum ErrorCode {
     SEAT_NOT_AVAILABLE(HttpStatus.CONFLICT, "Seat is not available"),
     SEAT_ALREADY_ALLOCATED(HttpStatus.CONFLICT, "Seat is already allocated to another ticket"),
 
-    INVALID_TICKET_PRICE(HttpStatus.BAD_REQUEST, "Invalid ticket price, it should be not null and greater than zero" );
+    INVALID_TICKET_PRICE(HttpStatus.BAD_REQUEST, "Invalid ticket price, it should be not null and greater than zero" ),
+    AIRCRAFT_REGISTRATION_EXISTS(HttpStatus.BAD_REQUEST, "Aircraft registration exists");
 
     private final HttpStatus status;
     private final String message;
