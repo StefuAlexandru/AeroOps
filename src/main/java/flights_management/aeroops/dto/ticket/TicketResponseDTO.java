@@ -6,8 +6,8 @@ import flights_management.aeroops.enums.SeatClass;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-//de la Booking : code, bookingStatus
-//de la Seat : seatNumber, seatClass
+//from Booking : code, bookingStatus
+//from Seat : seatNumber, seatClass
 public record TicketResponseDTO(
         Long id,
         String code,

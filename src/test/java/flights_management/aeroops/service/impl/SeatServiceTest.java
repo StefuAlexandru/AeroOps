@@ -1,5 +1,6 @@
 package flights_management.aeroops.service.impl;
 
+import flights_management.aeroops.dto.seat.SeatRequestDTO;
 import flights_management.aeroops.dto.seat.SeatResponseDTO;
 import flights_management.aeroops.entity.Flight;
 import flights_management.aeroops.entity.Seat;
@@ -49,14 +50,18 @@ class SeatServiceTest {
     private Flight cancelledFlight;
     private Flight departedFlight;
     private Flight newFlight;
+    private SeatRequestDTO request;
+    private SeatRequestDTO requestWithNewFlight;
 
     @BeforeEach
     void setUp(TestInfo testInfo) {
-        seat = createSeat();
-        flight = createFlight();
-        cancelledFlight = createCancelledFlight();
-        departedFlight = createDepartedFlight();
-        newFlight = createNewFlight();
+        seat = aSeat();
+        flight = aFlight();
+        cancelledFlight = aCancelledFlight();
+        departedFlight = aDepartedFlight();
+        newFlight = aNewFlight();
+        request = aSeatRequest();
+        requestWithNewFlight = aSeatRequestWithNewFlight();
 
         if(testInfo.getTags().contains("create") &&
                 testInfo.getTags().contains("happy-path")){
@@ -82,6 +87,8 @@ class SeatServiceTest {
         when(seatRepository.countByFlightId(2L)).thenReturn(0L);
         when(seatRepository.existsByFlightIdAndSeatNumberAndIdNot(2L, "10A", 1L)).thenReturn(false);
     }
+
+    // ~~~~~~~~~~~~~~~~ CREATE ~~~~~~~~~~~~~~~~
 
     @Tag("create")
     @Tag("happy-path")
@@ -201,6 +208,8 @@ class SeatServiceTest {
 
     }
 
+    // ~~~~~~~~~~~~~~~~ GET ~~~~~~~~~~~~~~~~
+
     @Tag("get")
     @Test
     void getAllSeats_ShouldReturnAllSeats() {
@@ -252,6 +261,8 @@ class SeatServiceTest {
         verifyNoMoreInteractions(seatRepository);
         verifyNoInteractions(seatMapper);
     }
+
+    // ~~~~~~~~~~~~~~~~ UPDATE ~~~~~~~~~~~~~~~~
 
     @Tag("update")
     @Tag("happy-path")
@@ -427,6 +438,8 @@ class SeatServiceTest {
         verify(seatRepository).existsByFlightIdAndSeatNumberAndIdNot(2L, "10A", 1L);
         verify(seatRepository, never()).save(any());
     }
+
+    // ~~~~~~~~~~~~~~~~ DELETE ~~~~~~~~~~~~~~~~
 
     @Tag("delete")
     @Tag("happy-path")

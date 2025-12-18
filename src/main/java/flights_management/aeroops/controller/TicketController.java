@@ -1,7 +1,5 @@
 package flights_management.aeroops.controller;
 
-import flights_management.aeroops.dto.seat.SeatRequestDTO;
-import flights_management.aeroops.dto.seat.SeatResponseDTO;
 import flights_management.aeroops.dto.ticket.TicketRequestDTO;
 import flights_management.aeroops.dto.ticket.TicketResponseDTO;
 import flights_management.aeroops.service.ITicketService;
