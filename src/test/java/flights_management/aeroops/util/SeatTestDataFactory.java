@@ -6,71 +6,90 @@ import flights_management.aeroops.entity.Flight;
 import flights_management.aeroops.entity.Seat;
 import flights_management.aeroops.enums.SeatClass;
 import flights_management.aeroops.enums.Status;
-import lombok.NoArgsConstructor;
 
-
-@NoArgsConstructor
 public final class SeatTestDataFactory {
 
-    public static SeatRequestDTO request = new SeatRequestDTO(1L, "12A",SeatClass.BUSINESS, true);
-    public static SeatRequestDTO requestWithNewFlight = new SeatRequestDTO(2L, "10A", SeatClass.ECONOMY, false);
+    private SeatTestDataFactory() {}
 
-    private static final Aircraft aircraft = createAircraft();
+    // ~~~~~~~~~~~~~~~~ DTOS ~~~~~~~~~~~~~~~~
 
-    public static Aircraft createAircraft() {
+    public static SeatRequestDTO aSeatRequest() {
+        return new SeatRequestDTO(1L, "12A", SeatClass.BUSINESS, true);
+    }
+
+    public static SeatRequestDTO aSeatRequestWithNewFlight() {
+        return new SeatRequestDTO(2L, "10A", SeatClass.ECONOMY, false);
+    }
+
+    // ~~~~~~~~~~~~~~~~ AIRCRAFT ~~~~~~~~~~~~~~~~
+
+    public static Aircraft anAircraft(int seats) {
         Aircraft aircraft = new Aircraft();
-        aircraft.setSeats(100);
+        aircraft.setSeats(seats);
         return aircraft;
     }
 
-    public static Flight createNewFlight(){
-        Aircraft newAircraft = new Aircraft();
-        newAircraft.setSeats(150);
+    // ~~~~~~~~~~~~~~~~ FLIGHTS ~~~~~~~~~~~~~~~~
 
-        Flight newFlight = new Flight();
-        newFlight.setId(2L);
-        newFlight.setFlightNumber("RO342");
-        newFlight.setStatus(Status.PLANNED);
-        newFlight.setAircraft(newAircraft);
-
-        return  newFlight;
-    }
-
-    public static Flight createFlight() {
+    public static Flight aFlight() {
         Flight flight = new Flight();
         flight.setId(1L);
         flight.setFlightNumber("RO123");
         flight.setStatus(Status.PLANNED);
-        flight.setAircraft(aircraft);
+        flight.setAircraft(anAircraft(100));
         return flight;
     }
 
-    public static Flight createCancelledFlight() {
+    public static Flight aCancelledFlight() {
         Flight flight = new Flight();
         flight.setId(1L);
         flight.setFlightNumber("RO123");
         flight.setStatus(Status.CANCELLED);
-        flight.setAircraft(aircraft);
+        flight.setAircraft(anAircraft(100));
         return flight;
     }
 
-    public static Flight createDepartedFlight() {
+    public static Flight aDepartedFlight() {
         Flight flight = new Flight();
         flight.setId(2L);
         flight.setFlightNumber("RO123");
         flight.setStatus(Status.DEPARTED);
-        flight.setAircraft(aircraft);
+        flight.setAircraft(anAircraft(100));
         return flight;
     }
 
+    public static Flight aNewFlight() {
+        Flight flight = new Flight();
+        flight.setId(2L);
+        flight.setFlightNumber("RO342");
+        flight.setStatus(Status.PLANNED);
+        flight.setAircraft(anAircraft(150));
+        return flight;
+    }
 
-    public static Seat createSeat() {
+    // ~~~~~~~~~~~~~~~~ SEATS ~~~~~~~~~~~~~~~~
+
+    public static Seat aSeat() {
         Seat seat = new Seat();
         seat.setId(1L);
-        seat.setFlight(createFlight());
+        seat.setFlight(aFlight());
         seat.setSeatNumber("12A");
         seat.setSeatClass(SeatClass.BUSINESS);
         seat.setIsAvailable(true);
+        return seat;
+    }
+
+    public static Seat aSeatOnFlight(Flight flight,
+                                     Long id,
+                                     String seatNumber,
+                                     SeatClass seatClass,
+                                     boolean isAvailable) {
+        Seat seat = new Seat();
+        seat.setId(id);
+        seat.setFlight(flight);
+        seat.setSeatNumber(seatNumber);
+        seat.setSeatClass(seatClass);
+        seat.setIsAvailable(isAvailable);
         return seat;
     }
 }

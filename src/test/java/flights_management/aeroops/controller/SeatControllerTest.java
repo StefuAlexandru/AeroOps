@@ -65,6 +65,7 @@ class SeatControllerTest {
         return objectMapper.writeValueAsString(body);
     }
 
+    // ~~~~~~~~~~~~~~~~ CREATE ~~~~~~~~~~~~~~~~
 
     @Tag("create")
     @Tag("happy-path")

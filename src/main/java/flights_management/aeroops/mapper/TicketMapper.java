@@ -28,5 +28,7 @@ public interface TicketMapper {
     TicketResponseDTO toResponse(Ticket ticket);
 
     //Entity -> DTO
+    @Mapping(target = "bookingId", source = "booking.id")
+    @Mapping(target = "seat",      source = "seat")
     TicketDTO toDto(Ticket ticket);
 }

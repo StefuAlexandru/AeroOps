@@ -1,6 +1,5 @@
 package flights_management.aeroops.service.impl;
 
-import ch.qos.logback.core.spi.ErrorCodes;
 import flights_management.aeroops.dto.passenger.PassengerRequestDTO;
 import flights_management.aeroops.dto.passenger.PassengerResponseDTO;
 import flights_management.aeroops.entity.Passenger;

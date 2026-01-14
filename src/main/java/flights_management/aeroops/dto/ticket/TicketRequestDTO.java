@@ -6,13 +6,15 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
+import static flights_management.aeroops.dto.ticket.TicketRequestMessages.*;
+
 public record TicketRequestDTO(
-        @NotNull(message = "Booking ID cannot be null")
+        @NotNull(message = BOOKING_ID_NOT_NULL)
         Long bookingId,
-        @NotNull(message = "Seat ID cannot be null")
+        @NotNull(message = SEAT_ID_NOT_NULL)
         Long seatId,
-        @NotNull(message = "Price cannot be null")
-        @DecimalMin(value = "0.00", inclusive = false, message = "Price must be > 0")
-        @Digits(integer = 10, fraction = 2, message = "Price can have at most 10 digits before the comma, and 2 after it")
+        @NotNull(message = PRICE_NOT_NULL)
+        @DecimalMin(value = "0.00", inclusive = false, message = PRICE_MIN_MESSAGE)
+        @Digits(integer = 10, fraction = 2, message = PRICE_DIGITS_MESSAGE)
         BigDecimal price
 ) { }
